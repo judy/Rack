@@ -131,7 +131,8 @@ void RackScrollWidget::onHoverKey(const event::HoverKey& e) {
 }
 
 void RackScrollWidget::onHoverScroll(const event::HoverScroll& e) {
-	if ((APP->window->getMods() & RACK_MOD_MASK) == RACK_MOD_CTRL) {
+	if (!settings::legacyNavigation || (APP->window->getMods() & RACK_MOD_MASK) == RACK_MOD_CTRL)
+	{
 		// Increase zoom
 		float zoomDelta = e.scrollDelta.y / 50 / 4;
 		if (settings::invertZoom)
@@ -143,7 +144,7 @@ void RackScrollWidget::onHoverScroll(const event::HoverScroll& e) {
 	}
 
 	ScrollWidget::onHoverScroll(e);
-}
+	}
 
 void RackScrollWidget::reset() {
 	offset = RACK_OFFSET.mult(zoomWidget->zoom);

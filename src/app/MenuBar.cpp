@@ -327,6 +327,12 @@ struct CursorLockItem : ui::MenuItem {
 	}
 };
 
+struct LegacyNavigationItem : ui::MenuItem {
+	void onAction(const event::Action &e) override {
+		settings::legacyNavigation ^= true;
+	}
+};
+
 struct FrameRateValueItem : ui::MenuItem {
 	int frameSwapInterval;
 	void onAction(const event::Action& e) override {
@@ -377,6 +383,11 @@ struct ViewButton : MenuButton {
 		cursorLockItem->text = "Lock cursor while dragging";
 		cursorLockItem->rightText = CHECKMARK(settings::allowCursorLock);
 		menu->addChild(cursorLockItem);
+
+		LegacyNavigationItem *legacyNavigationItem = new LegacyNavigationItem;
+		legacyNavigationItem->text = "Use legacy navigation (cmd/ctrl+scroll to zoom)";
+		legacyNavigationItem->rightText = CHECKMARK(settings::legacyNavigation);
+		menu->addChild(legacyNavigationItem);
 
 		ZoomSlider* zoomSlider = new ZoomSlider;
 		zoomSlider->box.size.x = 200.0;
