@@ -1,6 +1,6 @@
 #include <ui/ScrollWidget.hpp>
 #include <app.hpp>
-
+#include <settings.hpp>
 
 namespace rack {
 namespace ui {
@@ -72,13 +72,13 @@ void ScrollWidget::onButton(const event::Button& e) {
 	if (!(horizontalScrollBar->visible || verticalScrollBar->visible))
 		return;
 
-	if (e.button == GLFW_MOUSE_BUTTON_MIDDLE) {
+	if (!settings::legacyNavigation || e.button == GLFW_MOUSE_BUTTON_MIDDLE) {
 		e.consume(this);
 	}
 }
 
 void ScrollWidget::onDragStart(const event::DragStart& e) {
-	if (e.button == GLFW_MOUSE_BUTTON_MIDDLE) {
+	if (!settings::legacyNavigation || e.button == GLFW_MOUSE_BUTTON_MIDDLE) {
 		e.consume(this);
 	}
 }
