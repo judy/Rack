@@ -26,7 +26,6 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v2
         with:
-          path: temp
           fetch-depth: 0
       - name: Make Dependencies
         run: make -j4 dep
