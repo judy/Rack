@@ -1,0 +1,34 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches:
+      - navigation
+  pull_request:
+    branches:
+      - navigation
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: git wget make tar unzip zip mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-cmake autoconf automake mingw-w64-x86_64-libtool mingw-w64-x86_64-jq python
+      - name: Check out repo
+        uses: actions/checkout@v2
+        with:
+          path: temp
+          fetch-depth: 0
+      - name: Make Dependencies
+        run: make -j4 dep
+      - name: Make Distribution
+        run: make -j4 dist
